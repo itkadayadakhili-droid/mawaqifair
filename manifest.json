@@ -1,0 +1,19 @@
+{
+  "name": "تطبيق المواقيف — أمن المطارات والمنافذ",
+  "short_name": "مواقيف المنافذ",
+  "description": "إدخال واستعلام وإدارة سجلات الموقوفين — إدارة أمن المطارات والمنافذ البرية والبحرية",
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F7F5F0",
+  "theme_color": "#0D1D41",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

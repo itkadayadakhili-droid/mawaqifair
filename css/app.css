@@ -1,0 +1,274 @@
+@font-face { font-family: 'Qomra'; src: url('../assets/fonts/itfQomraArabic-Regular.otf'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Qomra'; src: url('../assets/fonts/itfQomraArabic-Medium.otf'); font-weight: 500 600; font-display: swap; }
+@font-face { font-family: 'Qomra'; src: url('../assets/fonts/itfQomraArabic-Bold.otf'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Qomra'; src: url('../assets/fonts/itfQomraArabic-Black.otf'); font-weight: 900; font-display: swap; }
+
+:root {
+    /* ألوان الهوية البصرية لوزارة الداخلية */
+    --primary: #0D1D41;
+    --primary-dark: #08142E;
+    --primary-soft: #1A2C57;
+    --gold: #B9A779;
+    --gold-light: #D9CDA8;
+    --brown: #7A6A45;
+    --cream: #ECE8DF;
+    --bg: #F7F5F0;
+    --card: #FFFFFF;
+    --border: #E4DFD3;
+    --text: #2E3140;
+    --muted: #6E6A5E;
+    --shadow: 0 4px 14px rgba(13,29,65,.07);
+    --dark-card: linear-gradient(160deg, #1A2C57, #08142E);
+    --gold-line: linear-gradient(90deg, #B9A779, #D9CDA8, #B9A779);
+    --ok: #1F7A3E;
+    --ok-bg: #E3F3E8;
+    --warn: #8A5A00;
+    --warn-bg: #FFF1D6;
+    --bad: #B3261E;
+    --bad-bg: #FBE4E2;
+    --info-bg: #E8EBF2;
+    --nav-h: 62px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+body {
+    font-family: 'Qomra', 'Tahoma', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+    direction: rtl;
+    padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 18px);
+}
+.num { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+/* ---------- الترويسة ---------- */
+.topbar {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 14px;
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    box-shadow: 0 4px 0 0 transparent;
+}
+.topbar::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px; background: var(--gold-line); }
+.topbar .logo { width: 44px; height: 42px; flex: none; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 4px; }
+.topbar .logo img { width: 36px; height: auto; display: block; }
+.topbar .ttl { flex: 1; min-width: 0; }
+.topbar .ttl b { display: block; font-weight: 900; font-size: 1.05rem; line-height: 1.25; }
+.topbar .ttl span { display: block; font-size: .72rem; color: var(--gold-light); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.back-btn {
+    background: rgba(255,255,255,.12); color: #fff; border: 0; border-radius: 10px;
+    width: 40px; height: 40px; font-size: 1.3rem; cursor: pointer; font-family: inherit; flex: none;
+}
+
+.wrap { max-width: 680px; margin: 0 auto; padding: 18px 14px 14px; }
+
+/* ---------- أزرار ---------- */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 46px; padding: 8px 16px; border: 0; border-radius: 12px;
+    background: var(--primary); color: #fff; font-family: inherit; font-size: 1rem; font-weight: 700;
+    cursor: pointer; text-decoration: none; text-align: center;
+}
+.btn:active { transform: scale(.98); }
+.btn.gold { background: var(--gold); color: #fff; }
+.btn.ghost { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); }
+.btn.danger { background: var(--bad); }
+.btn.ok { background: var(--ok); }
+.btn.small { min-height: 38px; padding: 4px 12px; font-size: .88rem; border-radius: 10px; }
+.btn.block { display: flex; width: 100%; }
+.btn[disabled] { opacity: .5; pointer-events: none; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-row > .btn { flex: 1 1 140px; }
+
+/* ---------- بطاقات ---------- */
+.card { background: var(--card); border: 1px solid var(--cream); border-radius: 16px; padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow); }
+.card h2, .card h3 { margin: 0 0 12px; font-size: 1.05rem; font-weight: 900; color: var(--primary); }
+.card h2::after { content: ''; display: block; width: 44px; height: 3px; background: var(--gold); border-radius: 2px; margin-top: 6px; }
+.card.empty h2::after { margin-inline: auto; }
+.card h2 .cnt { font-weight: 400; color: var(--muted); font-size: .85rem; }
+
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.stat {
+    background: var(--card); border: 1px solid var(--cream); border-radius: 14px; padding: 12px 14px; box-shadow: var(--shadow);
+    text-decoration: none; color: inherit; display: block; border-top: 4px solid var(--gold); text-align: center;
+}
+.stat .n { font-size: 1.9rem; font-weight: 900; line-height: 1.1; color: var(--primary); }
+.stat .l { font-size: .85rem; color: var(--brown); font-weight: 600; }
+.stat.primary { background: var(--dark-card); border-top-color: var(--gold-light); border-color: transparent; }
+.stat.primary .n { color: #fff; }
+.stat.primary .l { color: var(--gold-light); }
+.stat.alert { border-top-color: var(--bad); }
+.stat.alert .n { color: var(--bad); }
+.stat.warn { border-top-color: var(--gold); }
+.stat.ok { border-top-color: var(--ok); }
+
+/* ---------- شارات الحالة ---------- */
+.badge { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: .78rem; font-weight: 700; white-space: nowrap; }
+.badge.active { background: var(--info-bg); color: var(--primary-soft); }
+.badge.near { background: var(--warn-bg); color: var(--warn); }
+.badge.overdue { background: var(--bad-bg); color: var(--bad); }
+.badge.released { background: var(--ok-bg); color: var(--ok); }
+.badge.referred { background: #ECE6F5; color: #5B3F8C; }
+.badge.voided { background: #E6E6E6; color: #555; }
+
+/* ---------- القوائم ---------- */
+.search {
+    width: 100%; min-height: 48px; border: 1.5px solid var(--border); border-radius: 12px; padding: 8px 14px;
+    font-family: inherit; font-size: 1rem; background: #fff; margin-bottom: 10px;
+}
+.chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 6px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+    flex: none; padding: 6px 14px; border-radius: 99px; background: #fff; border: 1.5px solid var(--border);
+    color: var(--muted); font-size: .88rem; font-weight: 700; text-decoration: none; white-space: nowrap;
+}
+.chip .n { color: var(--brown); margin-inline-start: 4px; }
+.chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.chip.active .n { color: var(--gold-light); }
+
+.item {
+    display: block; background: var(--card); border: 1px solid var(--cream); border-radius: 14px; padding: 12px 14px; box-shadow: var(--shadow);
+    margin-bottom: 10px; text-decoration: none; color: inherit; border-inline-start: 5px solid var(--primary);
+}
+.item.overdue { border-inline-start-color: var(--bad); }
+.item.near { border-inline-start-color: var(--gold); }
+.item.released { border-inline-start-color: var(--ok); }
+.item.referred { border-inline-start-color: #7B5BB0; }
+.item.voided { border-inline-start-color: #999; opacity: .75; }
+.item .row1 { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.item .nm { font-weight: 900; font-size: 1.05rem; color: var(--primary); }
+.item .sub { font-size: .85rem; color: var(--muted); margin-top: 2px; }
+.item .rem { font-size: .85rem; font-weight: 700; margin-top: 4px; }
+.item .rem.bad { color: var(--bad); }
+.item .rem.warn { color: var(--warn); }
+
+.empty { text-align: center; color: var(--muted); padding: 28px 10px; }
+.empty .big { font-size: 2.4rem; }
+.empty .emblem { height: 92px; width: auto; display: block; margin: 4px auto 10px; }
+
+/* ---------- تفاصيل ---------- */
+.kv { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+.kv > div { min-width: 0; }
+.kv .k { font-size: .76rem; color: var(--brown); font-weight: 600; }
+.kv .v { font-weight: 700; overflow-wrap: anywhere; }
+.kv .full { grid-column: 1 / -1; }
+
+.alertbox { border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; font-weight: 700; font-size: .92rem; }
+.alertbox.bad { background: var(--bad-bg); color: var(--bad); border: 1px solid #F0B8B3; }
+.alertbox.warn { background: var(--warn-bg); color: var(--warn); border: 1px solid #F0D49A; }
+.alertbox.info { background: var(--info-bg); color: var(--primary-soft); border: 1px solid #C5D0EA; }
+
+.sub-item { border-top: 1px dashed var(--border); padding: 10px 0; }
+.sub-item:first-of-type { border-top: 0; }
+.sub-item .top { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+.sub-item .meta { font-size: .82rem; color: var(--muted); }
+.link-btn { background: none; border: 0; color: var(--bad); font-family: inherit; font-size: .82rem; cursor: pointer; padding: 4px 6px; }
+.link-btn.pri { color: var(--primary-soft); font-weight: 700; }
+
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline li { padding: 6px 0; border-top: 1px dashed var(--border); font-size: .85rem; }
+.timeline li:first-child { border-top: 0; }
+.timeline .at { color: var(--muted); font-size: .76rem; display: block; }
+
+.thumbs { display: flex; flex-wrap: wrap; gap: 10px; }
+.thumb { width: 92px; text-align: center; font-size: .72rem; color: var(--muted); }
+.thumb .box {
+    width: 92px; height: 92px; border-radius: 12px; border: 1px solid var(--border); background: #F6F7FA;
+    display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; font-size: 2rem;
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- نماذج ---------- */
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: .85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.field label .req { color: var(--bad); }
+.field input, .field select, .field textarea {
+    width: 100%; min-height: 48px; border: 1.5px solid var(--border); border-radius: 12px; padding: 8px 12px;
+    font-family: inherit; font-size: 1rem; background: #fff; color: var(--text);
+}
+.field textarea { min-height: 84px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus, .search:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(185,167,121,.25); }
+.field .hint { font-size: .76rem; color: var(--muted); margin-top: 3px; }
+.field.err input, .field.err select, .field.err textarea { border-color: var(--bad); }
+.field .errmsg { color: var(--bad); font-size: .78rem; margin-top: 3px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ---------- النافذة المنبثقة ---------- */
+.modal-bg {
+    position: fixed; inset: 0; background: rgba(8,19,48,.6); z-index: 150; display: flex; align-items: flex-end; justify-content: center;
+}
+.modal {
+    background: #fff; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
+    border-radius: 20px 20px 0 0; padding: 18px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+}
+.modal h3 { margin: 0 0 12px; color: var(--primary); font-weight: 900; }
+.modal p { margin: 0 0 12px; }
+.modal .actions { display: flex; gap: 10px; margin-top: 8px; }
+.modal .actions .btn { flex: 1; }
+.viewer { background: #000; }
+.viewer img { max-width: 100%; max-height: 80vh; display: block; margin: 0 auto 12px; }
+
+/* ---------- الشريط السفلي ---------- */
+.bottomnav {
+    position: fixed; bottom: 0; left: 0; right: 0; height: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px); background: #fff; border-top: 1px solid var(--cream); box-shadow: 0 -4px 14px rgba(13,29,65,.06);
+    display: flex; z-index: 30;
+}
+.bottomnav a {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    text-decoration: none; color: var(--muted); font-size: .72rem; font-weight: 700;
+}
+.bottomnav a .ic { font-size: 1.35rem; line-height: 1; display: flex; }
+.bottomnav a .ic svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.bottomnav a.active { color: var(--primary); box-shadow: inset 0 3px 0 var(--gold); }
+.bottomnav a.add .ic {
+    background: var(--primary); color: #fff; width: 46px; height: 46px; border-radius: 50%; box-shadow: 0 4px 10px rgba(13,29,65,.25); outline: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin-top: -14px; border: 3px solid #fff;
+}
+
+/* ---------- تنبيه عائم ---------- */
+.toast {
+    position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom, 0px));
+    background: var(--primary); color: #fff; padding: 10px 18px; border-radius: 12px; z-index: 200; font-weight: 700; max-width: 90vw; text-align: center;
+}
+.toast.bad { background: var(--bad); }
+
+/* ---------- شاشة القفل ---------- */
+.lock {
+    position: fixed; inset: 0; z-index: 100; background: var(--dark-card); color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+}
+.lock img { width: auto; height: 96px; margin-bottom: 8px; }
+.lock h2 { margin: 0; font-weight: 900; font-size: 1.3rem; }
+.lock .msg { min-height: 1.6em; color: var(--gold-light); font-size: .92rem; text-align: center; margin-bottom: 8px; }
+.lock .msg.bad { color: #FFB4AB; font-weight: 700; }
+.lock .dots { display: flex; gap: 14px; margin-bottom: 14px; direction: ltr; }
+.lock .dots i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--gold); display: block; }
+.lock .dots i.on { background: var(--gold); }
+.lock .dots.shake { animation: lockshake .35s; }
+@keyframes lockshake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-9px); } 40%,80% { transform: translateX(9px); } }
+.lock .keypad { display: grid; grid-template-columns: repeat(3, 76px); gap: 14px; direction: ltr; }
+.lock .keypad button {
+    width: 76px; height: 76px; border-radius: 50%; border: 0; background: rgba(255,255,255,.1); color: #fff;
+    font-family: inherit; font-size: 1.7rem; font-weight: 700; cursor: pointer;
+}
+.lock .keypad button:active { background: rgba(255,255,255,.28); }
+.lock .keypad button[disabled] { opacity: .35; }
+.lock .keypad .sm { font-size: .8rem; background: none; line-height: 1.2; }
+.lock .keypad .ph { visibility: hidden; }
+
+textarea.copybox { width: 100%; min-height: 110px; direction: ltr; font-family: monospace; font-size: .75rem; border: 1.5px solid var(--border); border-radius: 12px; padding: 8px; }
+
+@media (min-width: 700px) {
+    .bottomnav { max-width: 680px; margin: 0 auto; border-inline: 1px solid var(--border); }
+}
