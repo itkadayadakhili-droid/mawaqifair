@@ -719,7 +719,7 @@
                 <div><div class="k">وضع التخزين</div><div class="v">${Storage.mode === 'idb' ? 'IndexedDB (كامل)' : 'بديل (بدون مرفقات)'}</div></div>
                 <div><div class="k">آخر نسخة احتياطية</div><div class="v">${S.lastBackup ? h(fmtDateTime(S.lastBackup)) : 'لم تُؤخذ بعد'}</div></div></div>
                 <p class="sub" style="margin-top:10px">البيانات محفوظة على هذا الهاتف فقط. خذ نسخة احتياطية دورياً واحتفظ بها خارج الهاتف.</p>
-                ${persisted ? '<div class="alertbox info" style="margin:0">الحفظ الدائم مفعّل ✓</div>' : '<button class="btn ghost small" data-bk="persist">طلب حفظ دائم للبيانات</button>'}
+                ${persisted ? '<div class="alertbox info" style="margin:0">✓ التخزين محمي من الحذف التلقائي — لن يحذف الهاتف البيانات عند امتلاء ذاكرته</div>' : '<div class="alertbox warn" style="margin:0 0 8px">⚠ التخزين غير محمي من الحذف التلقائي — قد يحذف الهاتف البيانات إذا امتلأت ذاكرته. ثبّت التطبيق على الشاشة الرئيسية ثم اضغط الزر.</div><button class="btn ghost small" data-bk="persist">طلب حماية البيانات</button>'}
             </div>
             <div class="card"><h2>قفل التطبيق بالرمز السري</h2>
                 <p class="sub">${S.pin
@@ -1157,6 +1157,10 @@
             return;
         }
         if (S.pin) showLock(); else route();
+        // حماية البيانات من الحذف التلقائي عند امتلاء ذاكرة الهاتف
+        if (navigator.storage && navigator.storage.persisted) {
+            navigator.storage.persisted().then(p => { if (!p) Storage.requestPersistence(); }).catch(() => {});
+        }
         if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
             // عند وصول نسخة جديدة من التطبيق: إعادة تحميل الصفحة مرة واحدة لتظهر فوراً
             let reloaded = false;
