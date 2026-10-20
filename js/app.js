@@ -1158,6 +1158,10 @@
         }
         if (S.pin) showLock(); else route();
         if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+            // عند وصول نسخة جديدة من التطبيق: إعادة تحميل الصفحة مرة واحدة لتظهر فوراً
+            let reloaded = false;
+            const hadController = !!navigator.serviceWorker.controller;
+            navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded) { reloaded = true; location.reload(); } });
             navigator.serviceWorker.register('sw.js').catch(() => { /* اختياري */ });
         }
     })();

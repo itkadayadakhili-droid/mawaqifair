@@ -1,7 +1,7 @@
 // عامل الخدمة: يخزّن هيكل التطبيق (HTML/CSS/JS/خطوط/أيقونات) ليعمل بلا إنترنت بعد أول فتح.
 // البيانات نفسها تُحفظ في IndexedDB على الهاتف ولا علاقة لها بهذا الملف.
 // عند تعديل أي ملف من الملفات أدناه: غيّر رقم VERSION حتى تتحدّث النسخة المخزّنة عند المستخدمين.
-const VERSION = 'mawaqif-airports-v3';
+const VERSION = 'mawaqif-airports-v4';
 const FILES = [
     './', 'index.html', 'manifest.json',
     'css/app.css', 'js/brand.js', 'js/violations.js', 'js/storage.js', 'js/logic.js', 'js/app.js',
@@ -11,7 +11,7 @@ const FILES = [
 ];
 
 self.addEventListener('install', e => {
-    e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
+    e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES.map(f => new Request(f, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', e => {
