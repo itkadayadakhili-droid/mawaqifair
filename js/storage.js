@@ -18,7 +18,7 @@
     /* ---------- IndexedDB ---------- */
     function openIdb() {
         return new Promise(function (resolve, reject) {
-            if (!w.indexedDB) return reject(new Error('IndexedDB غير متاح'));
+            if (!w.indexedDB) return reject(new Error(__t('IndexedDB غير متاح')));
             var req;
             try { req = w.indexedDB.open(DB_NAME, DB_VER); } catch (e) { return reject(e); }
             req.onupgradeneeded = function () {
@@ -35,8 +35,8 @@
                 }
             };
             req.onsuccess = function () { resolve(req.result); };
-            req.onerror = function () { reject(req.error || new Error('فشل فتح قاعدة البيانات')); };
-            req.onblocked = function () { reject(new Error('قاعدة البيانات مقفلة')); };
+            req.onerror = function () { reject(req.error || new Error(__t('فشل فتح قاعدة البيانات'))); };
+            req.onblocked = function () { reject(new Error(__t('قاعدة البيانات مقفلة'))); };
         });
     }
 
@@ -51,7 +51,7 @@
             }
             t.oncomplete = function () { resolve(result); };
             t.onerror = function () { reject(t.error); };
-            t.onabort = function () { reject(t.error || new Error('أُلغيت العملية')); };
+            t.onabort = function () { reject(t.error || new Error(__t('أُلغيت العملية'))); };
         });
     }
 
@@ -82,7 +82,7 @@
                 w.localStorage.setItem('_probe', '1');
                 w.localStorage.removeItem('_probe');
             } catch (e) {
-                return Promise.reject(new Error('لا يتوفر أي تخزين محلي على هذا الجهاز'));
+                return Promise.reject(new Error(__t('لا يتوفر أي تخزين محلي على هذا الجهاز')));
             }
             Storage.mode = 'ls';
             Storage.attachmentsSupported = false;
@@ -125,7 +125,7 @@
     };
 
     Storage.addAttachment = function (att) {
-        if (Storage.mode === 'ls') return Promise.reject(new Error('المرفقات غير مدعومة في وضع التخزين البديل'));
+        if (Storage.mode === 'ls') return Promise.reject(new Error(__t('المرفقات غير مدعومة في وضع التخزين البديل')));
         att.createdAt = new Date().toISOString();
         return idbTx(['attachments'], 'readwrite', function (t) { return t.objectStore('attachments').add(att); });
     };
@@ -214,7 +214,7 @@
     // mode: 'merge' (يدمج بحسب المعرّف الفريد uid ويُبقي الأحدث) أو 'replace' (يستبدل كل شيء)
     Storage.importAll = function (data, mode) {
         if (!data || data.app !== 'mawaqif-airports' || !Array.isArray(data.detentions)) {
-            return Promise.reject(new Error('الملف ليس نسخة احتياطية صالحة لهذا التطبيق'));
+            return Promise.reject(new Error(__t('الملف ليس نسخة احتياطية صالحة لهذا التطبيق')));
         }
         var added = 0, updated = 0, skipped = 0;
         var start = mode === 'replace' ? Storage.clearAll() : Promise.resolve();

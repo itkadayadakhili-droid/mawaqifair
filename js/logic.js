@@ -46,21 +46,23 @@
             total: total, daysSince: daysSince, remaining: remaining,
             expectedRelease: L.addDays(d.detentionDate, total), overdue: false, near: false
         };
-        if (d.isVoided) return Object.assign(base, { key: 'voided', label: 'ملغى' });
-        if (d.releaseDate) return Object.assign(base, { key: 'released', label: 'أُخلي سبيله' });
-        if (d.referredTo) return Object.assign(base, { key: 'referred', label: 'أُحيل إلى جهة أخرى' });
-        if (remaining < 0) return Object.assign(base, { key: 'overdue', label: 'تجاوز المدة المقترحة', overdue: true });
-        if (remaining <= 1) return Object.assign(base, { key: 'near', label: 'موقوف — قرب انتهاء المدة', near: true });
-        return Object.assign(base, { key: 'active', label: 'موقوف حالياً' });
+        if (d.isVoided) return Object.assign(base, { key: 'voided', label: __t('ملغى') });
+        if (d.releaseDate) return Object.assign(base, { key: 'released', label: __t('أُخلي سبيله') });
+        if (d.referredTo) return Object.assign(base, { key: 'referred', label: __t('أُحيل إلى جهة أخرى') });
+        if (!(parseInt(d.proposedDays, 10) > 0) || !d.detentionDate) return Object.assign(base, { key: 'incomplete', label: __t('بيانات ناقصة'), remaining: 99999, total: 0, expectedRelease: '' });
+        if (remaining < 0) return Object.assign(base, { key: 'overdue', label: __t('تجاوز المدة المقترحة'), overdue: true });
+        if (remaining <= 1) return Object.assign(base, { key: 'near', label: __t('موقوف — قرب انتهاء المدة'), near: true });
+        return Object.assign(base, { key: 'active', label: __t('موقوف حالياً') });
     };
 
-    L.isOpen = function (st) { return st.key === 'active' || st.key === 'near' || st.key === 'overdue'; };
+    L.isOpen = function (st) { return st.key === 'active' || st.key === 'near' || st.key === 'overdue' || st.key === 'incomplete'; };
 
     L.remainingText = function (st) {
         if (!L.isOpen(st)) return '';
-        if (st.remaining < 0) return 'تجاوز بـ ' + (-st.remaining) + ' يوم';
-        if (st.remaining === 0) return 'تنتهي المدة اليوم';
-        return 'متبقّي ' + st.remaining + ' يوم';
+        if (st.key === 'incomplete') return __t('أكمل البيانات: المدة المقترحة');
+        if (st.remaining < 0) return __t('تجاوز بـ ') + (-st.remaining) + __t(' يوم');
+        if (st.remaining === 0) return __t('تنتهي المدة اليوم');
+        return __t('متبقّي ') + st.remaining + __t(' يوم');
     };
 
     /* ---------- الترقيم: يكتبه المستخدم بنفسه كما في سجل القسم (أرقام وفواصل مثل 12/2026 أو 2026-12) ---------- */
@@ -73,14 +75,14 @@
     L.matches = function (d, q) {
         if (!q) return true;
         q = q.trim().toLowerCase();
-        return [d.name, d.number, d.complaintNo, d.violation, d.workplace, d.orderingAuthority, d.referredTo]
+        return [d.name, d.motherName, d.number, d.selfNo, d.detentionPlace, d.complaintNo, d.violation, d.workplace, d.orderingAuthority, d.referredTo]
             .some(function (x) { return String(x || '').toLowerCase().indexOf(q) !== -1; });
     };
 
     /* ---------- CSV (BOM ليفتحه Excel بالعربية صحيحاً) ---------- */
     L.toCsv = function (rows) {
-        var head = ['رقم التوقيف', 'الاسم', 'مكان العمل', 'المخالفة', 'رقم الشكوى', 'تاريخ التوقيف', 'المدة المقترحة (يوم)', 'مجموع التمديد (يوم)',
-            'المدة الكلية (يوم)', 'الموعد المتوقع للإخلاء', 'الجهة الآمرة', 'الحالة', 'تاريخ الإخلاء', 'أُحيل إلى', 'تاريخ الإحالة'];
+        var head = [__t('رقم التوقيف'), __t('الاسم'), __t('اسم الأم'), __t('التولد'), __t('الرقم الذاتي'), __t('مكان التوقيف'), __t('مكان العمل'), __t('المخالفة'), __t('رقم الشكوى'), __t('تاريخ التوقيف'), __t('المدة المقترحة (يوم)'), __t('مجموع التمديد (يوم)'),
+            __t('المدة الكلية (يوم)'), __t('الموعد المتوقع للإخلاء'), __t('الجهة الآمرة'), __t('الحالة'), __t('تاريخ الإخلاء'), __t('أُحيل إلى'), __t('تاريخ الإحالة')];
         function cell(v) {
             v = String(v == null ? '' : v);
             return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
@@ -88,7 +90,7 @@
         var lines = [head.map(cell).join(',')];
         rows.forEach(function (d) {
             var st = L.status(d);
-            lines.push([d.number, d.name, d.workplace, d.violation, d.complaintNo, d.detentionDate, d.proposedDays, L.extraDays(d), st.total,
+            lines.push([d.number, d.name, d.motherName, d.birth, d.selfNo, d.detentionPlace, d.workplace, d.violation, d.complaintNo, d.detentionDate, d.proposedDays, L.extraDays(d), st.total,
                 st.expectedRelease, d.orderingAuthority, st.label, d.releaseDate, d.referredTo, d.referralDate].map(cell).join(','));
         });
         return '﻿' + lines.join('\r\n');

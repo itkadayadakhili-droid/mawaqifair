@@ -1,2 +1,2 @@
 // اسم الإدارة وشعارها في ترويسة التقارير — يختلف بين نسخ التطبيق
-window.APP_BRAND = { ministry: 'وزارة الداخلية', dept: 'إدارة أمن المطارات والمنافذ البرية والبحرية', logo: 'assets/brand/syria-eagle.svg' };
+window.APP_BRAND = { ministry: __t('وزارة الداخلية'), dept: __t('إدارة أمن المطارات والمنافذ البرية والبحرية'), logo: 'assets/brand/syria-eagle.svg' };
